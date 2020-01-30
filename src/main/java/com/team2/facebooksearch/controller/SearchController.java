@@ -1,8 +1,13 @@
 package com.team2.facebooksearch.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team2.facebooksearch.document.SearchProfile;
+import com.team2.facebooksearch.dto.SearchProfileDto;
 import com.team2.facebooksearch.service.SearchService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -12,6 +17,17 @@ public class SearchController {
 
     @Autowired
     SearchService searchService;
+
+    @KafkaListener(topics = "kafka5",groupId = "group_id")
+    public void addKafka(String kafkaProduct) throws JsonProcessingException {
+
+        System.out.println(kafkaProduct);
+        SearchProfile searchProfile=new SearchProfile();
+        ObjectMapper objectMapper = new ObjectMapper();
+        SearchProfileDto searchProfileDto = objectMapper.readValue(kafkaProduct, SearchProfileDto.class);
+        BeanUtils.copyProperties(searchProfileDto,searchProfile);
+        SearchProfile searchPrfileCreated = searchService.save(searchProfile);
+    }
 
     @PostMapping("/save")
     public String save(@RequestBody SearchProfile searchProfile) {

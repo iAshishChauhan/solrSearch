@@ -1,6 +1,8 @@
 package com.team2.facebooksearch.document;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
@@ -8,13 +10,13 @@ import org.springframework.data.solr.core.mapping.SolrDocument;
 import java.util.Date;
 
 @Data
-@SolrDocument(collection = "fbsearch")
+@SolrDocument(collection = "searchfb")
+@AllArgsConstructor
+@NoArgsConstructor
 public class SearchProfile {
     @Id
     @Field
-    private long userId;
-    @Field
-    private long personalId;
+    private String userId;
     @Field
     private String userName;
     @Field

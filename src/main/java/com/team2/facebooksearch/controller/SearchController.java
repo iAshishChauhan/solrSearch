@@ -8,6 +8,7 @@ import com.team2.facebooksearch.service.SearchService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -15,6 +16,10 @@ import java.util.List;
 @RestController
 @RequestMapping("search")
 public class SearchController {
+
+    @Autowired
+    KafkaTemplate<String,String> kafkaTemplate;
+    String TOPIC="CRM";
 
     @Autowired
     SearchService searchService;
@@ -25,6 +30,7 @@ public class SearchController {
         SearchProfile searchProfile=new SearchProfile();
         ObjectMapper objectMapper = new ObjectMapper();
         SearchProfileDto searchProfileDto = objectMapper.readValue(kafkaProduct, SearchProfileDto.class);
+        searchService.send(searchProfileDto);
         BeanUtils.copyProperties(searchProfileDto,searchProfile);
         SearchProfile searchProfileCreated = searchService.save(searchProfile);
     }

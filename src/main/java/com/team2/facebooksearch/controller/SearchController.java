@@ -11,6 +11,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin(value = "*")
 @RestController
 @RequestMapping("search")
 public class SearchController {
@@ -18,15 +19,15 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-//    @KafkaListener(topics = "kafka",groupId = "group_id")
-//    public void addKafka(String kafkaProduct) throws JsonProcessingException {
-//        System.out.println(kafkaProduct);
-//        SearchProfile searchProfile=new SearchProfile();
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        SearchProfileDto searchProfileDto = objectMapper.readValue(kafkaProduct, SearchProfileDto.class);
-//        BeanUtils.copyProperties(searchProfileDto,searchProfile);
-//        SearchProfile searchProfileCreated = searchService.save(searchProfile);
-//    }
+    @KafkaListener(topics = "kafka3",groupId = "group_id")
+    public void addKafka(String kafkaProduct) throws JsonProcessingException {
+        System.out.println(kafkaProduct);
+        SearchProfile searchProfile=new SearchProfile();
+        ObjectMapper objectMapper = new ObjectMapper();
+        SearchProfileDto searchProfileDto = objectMapper.readValue(kafkaProduct, SearchProfileDto.class);
+        BeanUtils.copyProperties(searchProfileDto,searchProfile);
+        SearchProfile searchProfileCreated = searchService.save(searchProfile);
+    }
 
     @PostMapping("/save")
     public String save(@RequestBody SearchProfile searchProfile) {

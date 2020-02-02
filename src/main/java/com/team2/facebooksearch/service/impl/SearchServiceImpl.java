@@ -18,6 +18,8 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     SearchRepository searchRepository;
 
+    String TOPIC="CRM";
+
     @Override
     public SearchProfile save(SearchProfile searchProfile) {
         return searchRepository.save(searchProfile);
@@ -27,17 +29,17 @@ public class SearchServiceImpl implements SearchService {
     public List<SearchProfile> findByString(String name) {
         return searchRepository.findByString(name);
     }
-    String TOPIC="CRM";
+
     @Autowired
     KafkaTemplate<String,String> kafkaTemplate;
+
     @Override
-    public SearchProfileDto send(SearchProfileDto searchProfileDto){
+    public void send(SearchProfileDto searchProfileDto){
         try{
             kafkaTemplate.send(TOPIC,(new ObjectMapper()).writeValueAsString(searchProfileDto));
         }
         catch(JsonProcessingException e){
             e.printStackTrace();
         }
-        return null;
     }
 }

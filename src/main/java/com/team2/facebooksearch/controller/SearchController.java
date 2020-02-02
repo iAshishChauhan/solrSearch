@@ -24,7 +24,7 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-    @KafkaListener(topics = "kafka3",groupId = "group_id")
+    @KafkaListener(topics = "facebook",groupId = "group_id")
     public void addKafka(String kafkaProduct) throws JsonProcessingException {
         System.out.println(kafkaProduct);
         SearchProfile searchProfile=new SearchProfile();

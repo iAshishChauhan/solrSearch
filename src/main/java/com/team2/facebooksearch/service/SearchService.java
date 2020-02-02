@@ -8,5 +8,5 @@ import java.util.List;
 public interface SearchService {
     SearchProfile save(SearchProfile searchProfile);
     List<SearchProfile> findByString(String name);
-    SearchProfileDto send(SearchProfileDto searchProfileDto);
+    void send(SearchProfileDto searchProfileDto);
 }

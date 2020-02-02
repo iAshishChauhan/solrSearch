@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 @Data
@@ -16,7 +17,11 @@ public class SearchProfileDto {
     private String imageUrl;
     private String gender;
     private String email;
-    private Date dob;
-    private String mobileNumber;
+    private Date DOB;
+    private Long mobileNumber;
     private List<String> interests;
+    private String profileType;
+    private String displayType;
+    private HashSet<String> friendIds;
+    private HashSet<String> pendingFriendIds;
 }
